@@ -1,4 +1,4 @@
-Some scripts to setup a debian chroot and to install [ROS](http://www.ros.org) (the roboter operating system) inside of it.
+Some scripts to setup a debian chroot and to install [ROS](http://www.ros.org) (the robot operating system) inside of it.
 This is just a personal mirror for myself and anyone who is interested. I do not plan to support it. So issues and pull requested will probably be ignored.
 
 # Prerequisites
@@ -16,6 +16,7 @@ Before exucuting the scripts make sure the following tools are installed:
 1. Create the chroot by executing `bash 0_create_chroot.sh`.
 1. Install ROS by executing `bash 1_setup_ros.sh`.
 1. You can now enter the chroot by executing `bash enter_chroot.sh`.
+1. For more information on tmux read the tmux(1) man page.
 1. If there are any problems: good luck, DuckDuckGo is your friend ;)
 
 # Licensing

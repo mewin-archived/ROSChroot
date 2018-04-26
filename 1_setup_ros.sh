@@ -4,17 +4,6 @@ if [ `id -u` -ne 0 ] ; then
 	exit
 fi
 
-function dlfile
-{
-	TARGET_FILE="$1"
-	SOURCE_FILE="$2"
-	if [ -f "$TARGET_FILE" ] ; then
-		curl -o "$TARGET_FILE" -z "$TARGET_FILE" "$SOURCE_FILE"
-	else
-		curl -o "$TARGET_FILE" "$SOURCE_FILE"
-	fi
-}
-
 cat > /opt/debian/etc/apt/sources.list.d/ros-latest.list << 'EOF'
 deb http://packages.ros.org/ros/ubuntu jessie main
 EOF

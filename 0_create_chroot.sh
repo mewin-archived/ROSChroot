@@ -1,4 +1,11 @@
 #!/bin/bash
+
+which wget > /dev/null 2>&1
+if [ $? -ne 0 ] ; then
+	echo "wget is required for debootstrap. Please install it before running this script."
+	exit 1
+fi
+
 if [ `id -u` -ne 0 ] ; then
 	sudo bash "$0" "$@"
 	exit
@@ -15,13 +22,6 @@ function dlfile
 	fi
 }
 
-which wget > /dev/null 2>&1
-if [ $? -ne 0 ] ; then
-	echo "wget is required for debootstrap. Please install it before running this script."
-	exit 1
-fi
-
-# curl -o /tmp/db.deb http://ftp.debian.org/debian/pool/main/d/debootstrap/debootstrap_1.0.60~bpo70+1_all.deb
 dlfile /tmp/db.deb http://ftp.debian.org/debian/pool/main/d/debootstrap/debootstrap_1.0.97_all.deb
 mkdir /opt/debootstrap > /dev/null 2>&1
 cd /opt/debootstrap
@@ -48,10 +48,10 @@ fi
 cat > /tmp/postinstall.sh << 'EOF'
 #!/bin/bash
 apt update
-apt dist-upgrade
-apt install locales
+yes | apt dist-upgrade
+yes | apt install locales
 dpkg-reconfigure locales
-apt install sudo
+yes | apt install sudo
 useradd -m -G sudo -s /bin/bash user
 passwd user
 EOF
@@ -61,3 +61,7 @@ source _chroot_prelude.sh
 chroot /opt/debian /bin/bash --login /tmp/postinstall.sh
 
 source _chroot_epilog.sh
+
+echo "Chroot has been created at /opt/debian."
+echo "You can now run enter_chroot.sh to enter the chrooted environment."
+echo "Debootstrap has been installed to /opt/debootstrap, you may want to delete it now."

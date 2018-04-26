@@ -22,6 +22,8 @@ function dlfile
 	fi
 }
 
+MYCD=$(pwd)
+
 dlfile /tmp/db.deb http://ftp.debian.org/debian/pool/main/d/debootstrap/debootstrap_1.0.97_all.deb
 mkdir /opt/debootstrap > /dev/null 2>&1
 cd /opt/debootstrap
@@ -56,6 +58,7 @@ useradd -m -G sudo -s /bin/bash user
 passwd user
 EOF
 
+cd "$MYCD"
 source _chroot_prelude.sh
 
 chroot /opt/debian /bin/bash --login /tmp/postinstall.sh

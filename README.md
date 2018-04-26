@@ -15,7 +15,7 @@ Before exucuting the scripts make sure the following tools are installed:
 **Be warned: this scripts may contain serious bugs that may break your system. I am not responsible for any harm that is done.**
 1. Create the chroot by executing `bash 0_create_chroot.sh`.
 1. Install ROS by executing `bash 1_setup_ros.sh`.
-1. You can now enter the chroot by executing `bash enter_chroot.sh`.
+1. You can now enter the chroot by executing `bash run_bash.sh` or `bash run_tmux.sh`.
 1. For more information on tmux read the tmux(1) man page.
 1. If there are any problems: good luck, DuckDuckGo is your friend ;)
 

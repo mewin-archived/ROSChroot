@@ -2,7 +2,7 @@ Some scripts to setup a debian chroot and to install [ROS](http://www.ros.org) (
 This is just a personal mirror for myself and anyone who is interested. I do not plan to support it. So issues and pull requested will probably be ignored.
 
 # Prerequisites
-Before exucuting the scripts make sure the following tools are installed:
+Before executing the scripts make sure the following tools are installed:
 - curl (for downloading debootstrap)
 - wget (required by debootstrap)
 - chroot (obviously)

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source _common.sh
+
 which wget > /dev/null 2>&1
 if [ $? -ne 0 ] ; then
 	echo "wget is required for debootstrap. Please install it before running this script."
@@ -30,24 +32,24 @@ cd /opt/debootstrap
 ar x /tmp/db.deb
 tar xf data.tar.gz
 
-mkdir /opt/debian > /dev/null 2>&1
+mkdir -p "$CHROOT_ROOT" > /dev/null 2>&1
 
-if [ ! -f /opt/debian/bin/bash ] ; then
-	DEBOOTSTRAP_DIR=/opt/debootstrap/usr/share/debootstrap /opt/debootstrap/usr/sbin/debootstrap --arch amd64 jessie /opt/debian/ http://ftp.de.debian.org/debian/
-	
-	cat > /opt/debian/etc/apt/sources.list << 'EOF'
-deb http://ftp.de.debian.org/debian/ jessie main non-free contrib
-deb-src http://ftp.de.debian.org/debian/ jessie main non-free contrib
+if [ ! -f "$CHROOT_ROOT/bin/bash" ] ; then
+	DEBOOTSTRAP_DIR=/opt/debootstrap/usr/share/debootstrap /opt/debootstrap/usr/sbin/debootstrap --arch amd64 $DEBIAN_VERSION "$CHROOT_ROOT/" http://ftp.de.debian.org/debian/
 
-deb http://security.debian.org/ jessie/updates main non-free contrib
-deb-src http://security.debian.org/ jessie/updates main non-free contrib
+	sed s/DEBIAN_VERSION/$DEBIAN_VERSION/g > "$CHROOT_ROOT/etc/apt/sources.list" << 'EOF'
+deb http://ftp.de.debian.org/debian/ DEBIAN_VERSION main non-free contrib
+deb-src http://ftp.de.debian.org/debian/ DEBIAN_VERSION main non-free contrib
 
-deb http://ftp.de.debian.org/debian/ jessie-updates main non-free contrib
-deb-src http://ftp.de.debian.org/debian/ jessie-updates main non-free contrib
+deb http://security.debian.org/ DEBIAN_VERSION/updates main non-free contrib
+deb-src http://security.debian.org/ DEBIAN_VERSION/updates main non-free contrib
+
+deb http://ftp.de.debian.org/debian/ DEBIAN_VERSION-updates main non-free contrib
+deb-src http://ftp.de.debian.org/debian/ DEBIAN_VERSION-updates main non-free contrib
 EOF
 fi
 
-cat > /tmp/postinstall.sh << 'EOF'
+sed s/CHROOT_USER/$CHROOT_USER/g > /tmp/postinstall.sh << 'EOF'
 #!/bin/bash
 apt update
 yes | apt dist-upgrade
@@ -55,26 +57,25 @@ yes | apt install locales
 # dpkg-reconfigure locales
 locale-gen
 yes | apt install sudo
-useradd -m -G sudo -s /bin/bash user
-# passwd user
-echo "user ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/nopasswd
+useradd -m -G sudo -s /bin/bash CHROOT_USER
+echo "CHROOT_USER ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/nopasswd
 EOF
 
 if [ -f "/etc/locale.gen" ] ; then
-    cat < /etc/locale.gen > /opt/debian/etc/locale.gen
+    cat < /etc/locale.gen > "$CHROOT_ROOT/etc/locale.gen"
 elif [ -n "$LC_NAME" ] ; then
-    echo "$LC_NAME" > /opt/debian/etc/locale.gen
+    echo "$LC_NAME" > "$CHROOT_ROOT/etc/locale.gen"
 else
-    echo "de_DE.UTF-8" > /opt/debian/etc/locale.gen
+    echo "de_DE.UTF-8" > "$CHROOT_ROOT/etc/locale.gen"
 fi
 
 cd "$MYCD"
 source _chroot_prelude.sh
 
-chroot /opt/debian /bin/bash --login /tmp/postinstall.sh
+chroot "$CHROOT_ROOT" /bin/bash --login /tmp/postinstall.sh
 
 source _chroot_epilog.sh
 
-echo "Chroot has been created at /opt/debian."
+echo "Chroot has been created at $CHROOT_ROOT."
 echo "You can now run enter_chroot.sh to enter the chrooted environment."
 echo "Debootstrap has been installed to /opt/debootstrap, you may want to delete it now."

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source _common.sh
+
 rm -f /tmp/roschroot/pids/$$ >/dev/null 2>&1
 
 for f in `ls -1 /tmp/roschroot/pids/` ; do
@@ -9,7 +11,7 @@ for f in `ls -1 /tmp/roschroot/pids/` ; do
     fi
 done
 
-umount /opt/debian/tmp
-umount /opt/debian/dev
-umount /opt/debian/sys
-umount /opt/debian/proc
+umount "$CHROOT_ROOT/tmp"
+umount "$CHROOT_ROOT/dev"
+umount "$CHROOT_ROOT/sys"
+umount "$CHROOT_ROOT/proc"

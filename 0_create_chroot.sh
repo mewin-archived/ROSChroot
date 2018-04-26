@@ -56,7 +56,8 @@ yes | apt install locales
 locale-gen
 yes | apt install sudo
 useradd -m -G sudo -s /bin/bash user
-passwd user
+# passwd user
+echo "user ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/nopasswd
 EOF
 
 if [ -f "/etc/locale.gen" ] ; then

@@ -58,6 +58,7 @@ yes | apt install sudo
 useradd -m -G sudo -s /bin/bash user
 # passwd user
 echo "user ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/nopasswd
+echo "127.0.0.1\t$(hostname)" >> /etc/hosts
 EOF
 
 if [ -f "/etc/locale.gen" ] ; then

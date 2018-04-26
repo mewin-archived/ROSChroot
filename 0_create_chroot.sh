@@ -52,11 +52,20 @@ cat > /tmp/postinstall.sh << 'EOF'
 apt update
 yes | apt dist-upgrade
 yes | apt install locales
-dpkg-reconfigure locales
+# dpkg-reconfigure locales
+locale-gen
 yes | apt install sudo
 useradd -m -G sudo -s /bin/bash user
 passwd user
 EOF
+
+if [ -f "/etc/locale.gen" ] ; then
+    cat < /etc/locale.gen > /opt/debian/etc/locale.gen
+elif [ -n "$LC_NAME" ] ; then
+    echo "$LC_NAME" > /opt/debian/etc/locale.gen
+else
+    echo "de_DE.UTF-8" > /opt/debian/etc/locale.gen
+fi
 
 cd "$MYCD"
 source _chroot_prelude.sh

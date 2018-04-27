@@ -31,4 +31,4 @@ source _chroot_prelude.sh
 
 chroot "$CHROOT_ROOT" /bin/bash --login /tmp/setup_ros.sh
 
-source _chroot_epilog.sh
+source _chroot_epilogue.sh

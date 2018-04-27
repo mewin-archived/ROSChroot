@@ -75,7 +75,7 @@ source _chroot_prelude.sh
 
 chroot "$CHROOT_ROOT" /bin/bash --login /tmp/postinstall.sh
 
-source _chroot_epilog.sh
+source _chroot_epilogue.sh
 
 echo "Chroot has been created at $CHROOT_ROOT."
 echo "You can now run enter_chroot.sh to enter the chrooted environment."

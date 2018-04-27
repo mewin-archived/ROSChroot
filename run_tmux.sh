@@ -17,4 +17,4 @@ source _chroot_prelude.sh
 echo "set-option -g default-command \"chroot $CHROOT_ROOT sudo -u $CHROOT_USER /bin/bash\"" > tmux.conf
 tmux -f tmux.conf
 
-source _chroot_epilog.sh
+source _chroot_epilogue.sh

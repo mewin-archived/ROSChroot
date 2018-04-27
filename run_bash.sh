@@ -16,4 +16,4 @@ source _chroot_prelude.sh
 
 chroot "$CHROOT_ROOT" sudo -u $CHROOT_USER /bin/bash
 
-source _chroot_epilog.sh
+source _chroot_epilogue.sh

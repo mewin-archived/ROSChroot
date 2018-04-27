@@ -1,6 +1,6 @@
 #!/bin/bash
 
-trap "source '$(pwd)/_chroot_epilog.sh'" INT
+trap "source '$(pwd)/_chroot_epilogue.sh'" INT
 
 mkdir -p /tmp/roschroot/pids
 touch /tmp/roschroot/pids/$$

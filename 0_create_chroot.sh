@@ -53,7 +53,7 @@ sed s/CHROOT_USER/$CHROOT_USER/g > /tmp/postinstall.sh << 'EOF'
 #!/bin/bash
 apt update
 yes | apt dist-upgrade
-yes | apt install locales
+yes | apt install locales dirmngr
 # dpkg-reconfigure locales
 locale-gen
 yes | apt install sudo

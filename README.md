@@ -12,7 +12,7 @@ Before executing the scripts make sure the following tools are installed:
 - sudo (to execute the scripts as root)
 
 # Usage
-**Be warned: this scripts may contain serious bugs that may break your system. I am not responsible for any harm that is done.**
+**Be warned: these scripts may contain serious bugs that may break your system. I am not responsible for any harm that is done.**
 1. Edit _config.sh and make sure it fits your needs.
 1. Create the chroot by executing `bash 0_create_chroot.sh`.
 1. Install ROS by executing `bash 1_setup_ros.sh`.

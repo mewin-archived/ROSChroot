@@ -16,3 +16,8 @@ CHROOT_ROOT=/opt/debian
 # the username of the unprivileged user inside the chroot
 # e.g. user, ros
 CHROOT_USER=user
+# the temporary folder to use
+# If you use multiple parallel installations of ROSChroot,
+# this should be different folders.
+# e.g. /tmp/roschroot
+TEMP_FOLDER=/tmp/roschroot

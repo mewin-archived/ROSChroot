@@ -2,8 +2,8 @@
 
 trap "source '$(pwd)/_chroot_epilogue.sh'" INT
 
-mkdir -p /tmp/roschroot/pids
-touch /tmp/roschroot/pids/$$
+mkdir -p "$TEMP_FOLDER/pids"
+touch "$TEMP_FOLDER/pids/$$"
 
 if mount | grep "$CHROOT_ROOT/tmp" > /dev/null; then
 	echo "chroot already mounted!"

@@ -11,7 +11,8 @@ for f in `ls -1 /tmp/roschroot/pids/` ; do
     fi
 done
 
-umount "$CHROOT_ROOT/tmp"
-umount "$CHROOT_ROOT/dev"
-umount "$CHROOT_ROOT/sys"
-umount "$CHROOT_ROOT/proc"
+umount -l "$CHROOT_ROOT/tmp"
+umount -l "$CHROOT_ROOT/dev/pts"
+umount -l "$CHROOT_ROOT/dev"
+umount -l "$CHROOT_ROOT/sys"
+umount -l "$CHROOT_ROOT/proc"

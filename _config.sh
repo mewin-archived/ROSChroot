@@ -1,6 +1,6 @@
 #!/bin/bash
 # You should not change the contents of this file after
-# after creating the chroot or strange things might happen.
+# creating the chroot or strange things might happen.
 
 # the ROS version to use
 # e.g. kinetic or lunar

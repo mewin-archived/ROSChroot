@@ -4,6 +4,7 @@ if [ -n "$DEBIAN_VERSION" ] ; then
     return
 fi
 
+[ -f _config.sh ] || cp _default_config.sh _config.sh
 source _config.sh
 
 if [ "$DEBIAN_VERSION" = "auto" ] ; then

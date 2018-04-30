@@ -57,7 +57,7 @@ yes | apt install locales dirmngr
 # dpkg-reconfigure locales
 locale-gen
 yes | apt install sudo
-useradd -m -G sudo -s /bin/bash CHROOT_USER
+useradd -u $CHROOT_UID -g $CHROOT_GID -m -G sudo -s /bin/bash CHROOT_USER
 echo "CHROOT_USER ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/nopasswd
 echo "127.0.0.1\t$(hostname)" >> /etc/hosts
 EOF

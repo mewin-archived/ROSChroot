@@ -2,6 +2,17 @@
 # You should not change the contents of this file after
 # creating the chroot or strange things might happen.
 
+if [ `id -u` -eq 0 -a -z "$SUDO_USER" ] ; then
+    echo "Please invoke these scripts as normal user."
+    exit 1
+fi
+
+# load default config for anything not set here
+if [ -z "$_DEFAULT_SOURCED" ] ; then
+    _DEFAULT_SOURCED=1
+    source _default_config.sh
+fi
+
 # the ROS version to use
 # e.g. kinetic or lunar
 ROS_VERSION=kinetic
@@ -25,6 +36,10 @@ CHROOT_UID=$SUDO_UID
 # gid of user inside chroot
 # see CHROOT_UID
 CHROOT_GID=$SUDO_GID
+# path for catkin workspace on host
+# default to ~/catkin_ws
+# e.g. /home/bob/Documents/Catkin
+HOST_CATKIN_WS_PATH="`eval echo ~$SUDO_USER`/catkin_ws"
 # the temporary folder to use
 # If you use multiple parallel installations of ROSChroot,
 # this should be different folders.

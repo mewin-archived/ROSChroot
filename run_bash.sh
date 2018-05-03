@@ -2,18 +2,22 @@
 
 source _common.sh
 
-if [ `id -u` -ne 0 ] ; then
+if [ "$USE_SUID" == "0" -a `id -u` -ne 0 ] ; then
 	sudo bash "$0" "$HOME/.Xauthority"
 	exit
+elif [ -z "$1" ] ; then
+    bash "$0" "$HOME/.Xauthority"
+    exit
 fi
 
-if [ -n "$1" ] ; then
-    cp "$1" "$CHROOT_ROOT/home/$CHROOT_USER/.Xauthority"
-fi
+source _enable_x.sh
 
-xhost +
 source _chroot_prelude.sh
 
-chroot "$CHROOT_ROOT" sudo -u $CHROOT_USER /bin/bash
+if [ "$USE_SUID" != "0" ] ; then
+    bin/autochroot bash
+else
+    chroot "$CHROOT_ROOT" sudo -u $CHROOT_USER /bin/bash
+fi
 
 source _chroot_epilogue.sh

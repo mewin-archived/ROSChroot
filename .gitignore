@@ -1,2 +1,4 @@
 _config.sh
 tmux.conf
+bin/
+c_sources/chroot_config.h

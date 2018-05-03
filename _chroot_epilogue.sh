@@ -11,8 +11,12 @@ for f in `ls -1 "$TEMP_FOLDER/pids/"` ; do
     fi
 done
 
-umount -l "$CHROOT_ROOT/tmp"
-# umount -l "$CHROOT_ROOT/dev/pts"
-umount -l "$CHROOT_ROOT/dev"
-umount -l "$CHROOT_ROOT/sys"
-umount -l "$CHROOT_ROOT/proc"
+if [ "$USE_SUID" != "0" ] ; then
+    bin/autoumount
+else
+    umount -l "$CHROOT_ROOT/tmp"
+    # umount -l "$CHROOT_ROOT/dev/pts"
+    umount -l "$CHROOT_ROOT/dev"
+    umount -l "$CHROOT_ROOT/sys"
+    umount -l "$CHROOT_ROOT/proc"
+fi

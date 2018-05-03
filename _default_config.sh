@@ -45,3 +45,9 @@ HOST_CATKIN_WS_PATH="`eval echo ~$SUDO_USER`/catkin_ws"
 # this should be different folders.
 # e.g. /tmp/roschroot
 TEMP_FOLDER=/tmp/roschroot
+# use suid executables
+# this will prevent the sudo prompt from showing
+# to use this you first have to compile the suid executables
+# using 0_setup_suid.sh
+# e.g. 0, 1
+USE_SUID=0

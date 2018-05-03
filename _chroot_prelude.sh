@@ -2,11 +2,19 @@
 
 trap "source '$(pwd)/_chroot_epilogue.sh'" INT
 
-mkdir -p "$TEMP_FOLDER/pids"
-touch "$TEMP_FOLDER/pids/$$"
+PID_FILE="$TEMP_FOLDER/pids/$$"
+
+mkdir -p `dirname "$PID_FILE"`
+touch "$PID_FILE"
+
+if [ `id -u` -eq 0 ] ; then
+    chown -R "$SUDO_UID:$SUDO_GID" "$TEMP_FOLDER"
+fi
 
 if mount | grep "$CHROOT_ROOT/tmp" > /dev/null; then
 	echo "chroot already mounted!"
+elif [ "$USE_SUID" != "0" ] ; then
+    bin/automount
 else
     mount -t proc proc "$CHROOT_ROOT/proc"
     mount -t sysfs sys "$CHROOT_ROOT/sys"

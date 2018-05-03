@@ -4,7 +4,10 @@ if [ -n "$DEBIAN_VERSION" ] ; then
     return
 fi
 
-[ -f _config.sh ] || cp _default_config.sh _config.sh
+if [ ! -f _config.sh ] ; then
+    echo "Config not found. Please copy _default_config.sh to _config.sh and customize it before using the scripts."
+    exit 1
+fi
 source _config.sh
 
 if [ "$DEBIAN_VERSION" = "auto" ] ; then

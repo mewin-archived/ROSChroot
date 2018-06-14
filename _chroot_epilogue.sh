@@ -12,7 +12,7 @@ for f in `ls -1 "$TEMP_FOLDER/pids/"` ; do
 done
 
 umount -l "$CHROOT_ROOT/tmp"
-# umount -l "$CHROOT_ROOT/dev/pts"
+umount -l "$CHROOT_ROOT/dev/pts"
 umount -l "$CHROOT_ROOT/dev"
 umount -l "$CHROOT_ROOT/sys"
 umount -l "$CHROOT_ROOT/proc"

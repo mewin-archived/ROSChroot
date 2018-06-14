@@ -26,7 +26,7 @@ function dlfile
 
 MYCD=$(pwd)
 
-dlfile /tmp/db.deb http://ftp.debian.org/debian/pool/main/d/debootstrap/debootstrap_1.0.97_all.deb
+dlfile /tmp/db.deb http://ftp.debian.org/debian/pool/main/d/debootstrap/debootstrap_1.0.102_all.deb
 mkdir /opt/debootstrap > /dev/null 2>&1
 cd /opt/debootstrap
 ar x /tmp/db.deb
@@ -36,6 +36,10 @@ mkdir -p "$CHROOT_ROOT" > /dev/null 2>&1
 
 if [ ! -f "$CHROOT_ROOT/bin/bash" ] ; then
 	DEBOOTSTRAP_DIR=/opt/debootstrap/usr/share/debootstrap /opt/debootstrap/usr/sbin/debootstrap --arch amd64 $DEBIAN_VERSION "$CHROOT_ROOT/" http://ftp.de.debian.org/debian/
+    if [ $? -ne 0 ] ; then
+        echo "Debootstrap failed!"
+        exit 1
+    fi
 
 	sed s/DEBIAN_VERSION/$DEBIAN_VERSION/g > "$CHROOT_ROOT/etc/apt/sources.list" << 'EOF'
 deb http://ftp.de.debian.org/debian/ DEBIAN_VERSION main non-free contrib
@@ -49,7 +53,7 @@ deb-src http://ftp.de.debian.org/debian/ DEBIAN_VERSION-updates main non-free co
 EOF
 fi
 
-sed s/CHROOT_USER/$CHROOT_USER/g > /tmp/postinstall.sh << 'EOF'
+sed "s/CHROOT_USER/$CHROOT_USER/g; s/CHROOT_UID/$CHROOT_UID/g; s/CHROOT_GID/$CHROOT_GID/g" > /tmp/postinstall.sh << 'EOF'
 #!/bin/bash
 apt update
 yes | apt dist-upgrade
@@ -57,7 +61,8 @@ yes | apt install locales dirmngr
 # dpkg-reconfigure locales
 locale-gen
 yes | apt install sudo
-useradd -u $CHROOT_UID -g $CHROOT_GID -m -G sudo -s /bin/bash CHROOT_USER
+groupadd -g CHROOT_GID CHROOT_USER
+useradd -u CHROOT_UID -g CHROOT_GID -m -G sudo -s /bin/bash CHROOT_USER
 echo "CHROOT_USER ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/nopasswd
 echo "127.0.0.1\t$(hostname)" >> /etc/hosts
 EOF
